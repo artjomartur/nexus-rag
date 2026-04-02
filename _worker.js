@@ -31,7 +31,7 @@ async function handleContact(request, env) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'NexusRAG <onboarding@resend.dev>',
+        from: 'onboarding@resend.dev',
         to: ['hi@artjombecker.com'],
         reply_to: email,
         subject: `NexusRAG: Message from ${name}`,
@@ -59,13 +59,17 @@ async function handleContact(request, env) {
       }),
     });
 
+    const resBody = await res.text();
+
     if (res.ok) {
       return Response.json({ status: 'success', message: 'Thank you! I will get back to you soon.' });
     }
 
-    const err = await res.text();
-    console.error('Resend error:', err);
-    return Response.json({ status: 'error', message: 'Failed to send. Please try again.' }, { status: 500 });
+    console.error('Resend error:', res.status, resBody);
+    return Response.json(
+      { status: 'error', message: `Resend error ${res.status}: ${resBody}` },
+      { status: 500 }
+    );
 
   } catch (err) {
     console.error('Worker error:', err);

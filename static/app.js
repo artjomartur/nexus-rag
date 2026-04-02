@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         initTheme(themeToggle);
 
+        // Mouse spotlight effect
+        document.addEventListener('mousemove', (e) => {
+            document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
+            document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
+        });
+
         // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

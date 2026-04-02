@@ -28,6 +28,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+/* Mouse glow spotlight */
+.landing-page::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(700px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(37, 99, 235, 0.07), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
 }
 
@@ -437,22 +447,30 @@ h2 {
 .form-group input, .form-group textarea {
     padding: 0.75rem 1rem;
     border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text-primary);
+    border: 1.5px solid #555;
+    background: #1a1a1a;
+    color: #ededed;
     font-family: inherit;
     font-size: 0.9375rem;
     outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
 }
 
 .form-group input:focus, .form-group textarea:focus {
     border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-[data-theme="dark"] .form-group input,
-[data-theme="dark"] .form-group textarea {
-    background: #1a1a1a;
-    border-color: #404040;
+/* Override browser autofill so Name & Email look identical */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset;
+    -webkit-text-fill-color: #ededed;
+    border-color: #555;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-group textarea {
