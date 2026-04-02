@@ -442,6 +442,17 @@ h2 {
     color: var(--text-primary);
     font-family: inherit;
     font-size: 0.9375rem;
+    outline: none;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #2563eb;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea {
+    background: #1a1a1a;
+    border-color: #404040;
 }
 
 .form-group textarea {
