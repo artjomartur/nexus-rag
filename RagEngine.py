@@ -12,33 +12,41 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class RagEngine:
-    def __init__(self, persist_directory: str = "./chroma_db"):
-        self.persist_directory = persist_directory
-        
+    def __init__(self):
         # 100% Free Local Embeddings via HuggingFace (all-MiniLM-L6-v2)
-        # This will download a very lightweight embedding model on first run.
+        # This will download the model once and reuse it.
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         
         # 100% Free Local LLM via Ollama
-        # Important: You must have Ollama installed and the model downloaded (e.g., 'ollama run llama3')
         self.llm = ChatOllama(model="llama3", temperature=0)
         
-        # Initialize Chroma vector store locally
+        # Current active notebook and vector store
+        self.active_notebook = None
+        self.vector_store = None
+
+    def set_notebook(self, notebook_name: str):
+        """
+        Sets the active notebook and initializes/switches the respective ChromaDB vector store.
+        """
+        self.active_notebook = notebook_name
+        persist_directory = f"./notebooks/{notebook_name}/chroma_db"
+        
+        # Initialize or switch to the specific Chroma vector store locally
         self.vector_store = Chroma(
-            persist_directory=self.persist_directory, 
+            persist_directory=persist_directory, 
             embedding_function=self.embeddings
         )
 
     def ingest_pdf(self, file_path: str) -> int:
         """
-        Loads a PDF, splits it into chunks, and stores embeddings in ChromaDB locally.
-        Returns the number of chunks processed.
+        Loads a PDF, splits it into chunks, and stores embeddings in the active notebook's context.
         """
-        # Load PDF
+        if self.vector_store is None:
+            raise Exception("No active notebook selected. Please set a notebook before ingesting documents.")
+
         loader = PyPDFLoader(file_path)
         documents = loader.load()
 
-        # Split text into chunks
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200,
@@ -49,19 +57,18 @@ class RagEngine:
         if not chunks:
             return 0
 
-        # Add chunks to Local Vector Database
         self.vector_store.add_documents(chunks)
-        
         return len(chunks)
 
     def query(self, question: str) -> str:
         """
-        Queries the local vector database and generates an answer using the local Ollama LLM.
+        Queries the active notebook's vector database and generates an answer using local LLM.
         """
-        # Setup Retriever
+        if self.vector_store is None:
+            raise Exception("No active notebook selected. Please set a notebook before querying.")
+
         retriever = self.vector_store.as_retriever(search_kwargs={"k": 4})
         
-        # Define Prompt Template
         system_prompt = (
             "You are an assistant for question-answering tasks. "
             "Use the following pieces of retrieved context to answer the question. "
@@ -76,11 +83,9 @@ class RagEngine:
             ("human", "{question}"),
         ])
         
-        # Format documents helper
         def format_docs(docs):
             return "\n\n".join(doc.page_content for doc in docs)
         
-        # Create QA Chain using modern LCEL (LangChain Expression Language)
         rag_chain = (
             {"context": retriever | format_docs, "question": RunnablePassthrough()}
             | prompt
@@ -88,7 +93,6 @@ class RagEngine:
             | StrOutputParser()
         )
         
-        # Invoke Chain
         try:
             response = rag_chain.invoke(question)
             return response

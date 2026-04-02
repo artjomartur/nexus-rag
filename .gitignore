@@ -4,5 +4,7 @@ __pycache__/
 .env
 chroma_db/
 temp_uploads/
+data/
+notebooks/
 .DS_Store
 *.log

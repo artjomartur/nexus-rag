@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus RAG | Intelligence Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                   <span class="logo-icon"></span>
+                   <span>NexusRAG</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-content">
+                <section class="notebooks-section">
+                    <div class="section-header">
+                        <h2>Notebooks</h2>
+                        <button id="add-notebook-btn" class="icon-btn" aria-label="Add notebook">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                    <div id="notebook-list" class="notebook-list">
+                        <!-- Notebooks populated here -->
+                    </div>
+                </section>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"></line></svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <span>Appearance</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="main-container">
+            <header class="main-header">
+                <div class="header-info">
+                   <h1 id="active-notebook-title">Default</h1>
+                   <p class="subtitle">Secure local retrieval-augmented generation engine</p>
+                </div>
+            </header>
+
+            <section class="knowledge-overview" id="knowledge-overview">
+                <h2>Knowledge Base</h2>
+                <div id="file-list" class="file-list">
+                    <p class="empty-state">No documents ingested for this notebook.</p>
+                </div>
+            </section>
+
+            <main class="content-area">
+                <section class="upload-section">
+                    <div class="upload-box" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                        <input type="file" id="file-input" accept="application/pdf" hidden>
+                        <div class="upload-content">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <p>Upload a PDF to this notebook.</p>
+                        </div>
+                    </div>
+                    <div id="upload-status" class="status-message"></div>
+                </section>
+
+                <section class="chat-section">
+                    <div class="chat-box" id="chat-history">
+                        <div class="message system-msg">
+                            <div class="avatar">⚡️</div>
+                            <div class="msg-content">Knowledge contexts are isolated by notebook. Upload a PDF or ask me anything.</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <div class="input-container">
+                <div class="input-area">
+                    <input type="text" id="question-input" placeholder="Message NexusRAG..." disabled>
+                    <button id="send-btn" disabled aria-label="Send query">
+                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for new notebook -->
+    <div id="notebook-modal" class="modal">
+        <div class="modal-content">
+            <h3>New Notebook</h3>
+            <p>Enter a name for your new knowledge base.</p>
+            <input type="text" id="new-notebook-name" placeholder="e.g. Finances" maxlength="20">
+            <div class="modal-actions">
+                <button class="btn secondary" id="close-modal">Cancel</button>
+                <button class="btn primary" id="save-notebook">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

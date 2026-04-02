@@ -3,50 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus RAG | Enterprise Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <title>Nexus RAG | Private Intelligence Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
-    <div class="glass-container">
-        <header>
+<body class="landing-page">
+    <nav class="navbar">
+        <div class="container nav-content">
             <div class="logo">
-                <span class="nexus">NEXUS</span><span class="rag">RAG</span>
+                <span class="logo-icon"></span>
+                <span>NexusRAG</span>
             </div>
-            <p class="subtitle">Enterprise Retrieval-Augmented Generation Engine</p>
-        </header>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#setup">Setup</a>
+                <a href="#contact">Contact</a>
+                <a href="/app" class="btn primary">Launch App</a>
+            </div>
+        </div>
+    </nav>
 
-        <main>
-            <section class="upload-section">
-                <h2>1. Train the Engine</h2>
-                <div class="upload-box" id="drop-zone">
-                    <input type="file" id="file-input" accept="application/pdf" hidden>
-                    <div class="upload-content">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                        <p>Drag & Drop your Enterprise PDF here</p>
-                        <button class="btn primary" onclick="document.getElementById('file-input').click()">Browse Files</button>
-                    </div>
-                </div>
-                <div id="upload-status" class="status-message"></div>
-            </section>
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="fade-in">Understand your data. <br><span class="highlight">Completely private.</span></h1>
+            <p class="fade-in delay-1">Nexus RAG is an enterprise-grade retrieval-augmented generation engine that runs entirely on your local machine. No data leaks, no subscriptions, just pure intelligence.</p>
+            <div class="hero-actions fade-in delay-2">
+                <a href="/app" class="btn primary lg">Get Started</a>
+                <a href="#features" class="btn secondary lg">Learn More</a>
+            </div>
+        </div>
+    </header>
 
-            <section class="chat-section">
-                <h2>2. Query the Knowledge Base</h2>
-                <div class="chat-box" id="chat-history">
-                    <div class="message system-msg">
-                        <div class="avatar">⚡️</div>
-                        <div class="msg-content">Welcome to Nexus RAG! Upload a document above, and then ask me anything about it. All processing runs 100% locally and privately via Ollama.</div>
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Nexus RAG?</h2>
+                <p>Modern AI engineering for local-first data processing.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Multi-Notebooks</h3>
+                    <p>Organize your knowledge into separate notebooks. Isolated, secure, and always relevant.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Private</h3>
+                    <p>Powered by Ollama and HuggingFace, your data never leaves your hardware. Zero-cloud architecture.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡️</div>
+                    <h3>Fast Ingestion</h3>
+                    <p>Advanced document parsing and vector chunking using LangChain for optimal query context.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Persistence</h3>
+                    <p>Powered by ChromaDB, your vector stores are persisted locally for instant availability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="setup" class="setup-guide">
+        <div class="container">
+            <div class="section-title">
+                <h2>Local Installation</h2>
+                <p>Run NexusRAG on your own hardware in less than 5 minutes.</p>
+            </div>
+            
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <h3>1. Clone & Environment</h3>
+                    <pre><code>git clone https://github.com/artjomartur/nexus-rag.git
+cd nexus-rag
+python -m venv venv
+source venv/bin/activate  # macOS/Linux</code></pre>
+                </div>
+
+                <div class="setup-step">
+                    <h3>2. Install Dependencies</h3>
+                    <pre><code>pip install -r requirements.txt
+cp .env.example .env</code></pre>
+                </div>
+
+                <div class="setup-step">
+                    <h3>3. Start Ollama</h3>
+                    <p>Ensure <a href="https://ollama.com" target="_blank">Ollama</a> is installed and running, then pull the model:</p>
+                    <pre><code>ollama pull llama3</code></pre>
+                </div>
+
+                <div class="setup-step">
+                    <h3>4. Launch NexusRAG</h3>
+                    <pre><code>python main.py</code></pre>
+                    <p class="step-hint">Open <strong>localhost:8000</strong> to start querying.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How it works</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-num">01</div>
+                    <p><strong>Upload.</strong> Drag and drop your PDFs into a notebook.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">02</div>
+                    <p><strong>Index.</strong> The engine automatically embeds your data locally.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">03</div>
+                    <p><strong>Query.</strong> Ask anything and get context-aware answers instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-card">
+                <div class="section-title">
+                    <h2>Get in Touch</h2>
+                    <p>Interested in this project or looking for a developer? Send me a message.</p>
+                </div>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required placeholder="john@example.com">
+                        </div>
                     </div>
-                </div>
-                <div class="input-area">
-                    <input type="text" id="question-input" placeholder="Ask a question about the document..." disabled>
-                    <button id="send-btn" class="btn active-btn" disabled>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </button>
-                </div>
-            </section>
-        </main>
-    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" required placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" id="contact-submit" class="btn primary full">Send Message</button>
+                    <div id="contact-status" class="status-message"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>&copy; 2026 Nexus RAG. Developed by Artjom Becker.</p>
+            <div class="footer-links">
+                <a href="https://github.com/artjomartur/nexus-rag">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
     <script src="/static/app.js"></script>
 </body>
 </html>
